@@ -15,7 +15,7 @@ public class StringContainer : MonoBehaviour
 
     public void OnEnable()
     {
-        Render(Strings);
+        //Render(Strings);
     }
 
     private void Render(List<CodeString> items)

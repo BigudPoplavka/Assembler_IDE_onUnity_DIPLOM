@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - varDef
+  - movData
+  - cmp
+  - jumps
+  - mathTwoParts
+  - regConv
+  - metka
+  - mathOneOperand
+  - bottomBar
+  - CodeInput
+  - stack
+  - Description
+  - SettingsPanel
   layers:
   - Default
   - TransparentFX

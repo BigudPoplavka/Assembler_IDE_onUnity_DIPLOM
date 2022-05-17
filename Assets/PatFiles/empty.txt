@@ -1,9 +1,0 @@
-CSEG segment
-org 100h
-
-Begin:
-; Ваш код 
-
-
-CSEG ends
-end Begin

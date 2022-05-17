@@ -8,24 +8,10 @@ using UnityEngine.Events;
 
 public class EngineCoreDataTransfer: MonoBehaviour
 {
-    public EngineCoreDataTransfer()
-    {
-
-    }
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        
-    }
+    public EngineCoreDataTransfer(){ }
 
     public List<string> GetCodeList(string code)
-    {
-        Debug.Log("CORE_DATA_TRANSFER: Code to list convert");
+    {      
         List<string> codeList = new List<string>();
 
         if(code != null || code != string.Empty)
@@ -42,6 +28,7 @@ public class EngineCoreDataTransfer: MonoBehaviour
         {
             EventsBase.onEmptyCode?.Invoke();
             Debug.Log("CORE_DATA_TRANSFER: Empty code");
+            Core.ShowLog("CORE_DATA_TRANSFER: Empty code");
             return null;
         }
     }

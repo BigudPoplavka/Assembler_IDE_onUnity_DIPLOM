@@ -1,0 +1,9 @@
+{
+    "_solveWithErrors": true,
+    "_dontShowLog": false,
+    "_buildOnlyAfterSyntaxAnalyze": false,
+    "_autoRunEmulAfterBuild": false,
+    "_manageEmulation": true,
+    "_showAddreses": true,
+    "_autoEmulationSteps": false
+}

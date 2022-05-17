@@ -15,27 +15,37 @@ public class KeyCodes: MonoBehaviour
     [SerializeField] private UnityEvent _ctrlPlus, _ctrlMin;
     [SerializeField] private UnityEvent _ctrlA, _ctrlD, _ctrlS, _ctrlN, _ctrlB, _ctrlO;
     private UnityEvent[] _hotKeysEvents;
-    private KeyCode[] _combinations;
 
     public void Start()
     {
         keyCodesPairs = new Dictionary<KeyCode, KeyCode>();
         hotKeysActionsPairs = new Dictionary<(KeyCode, KeyCode), Action>();
-        _combinations = new KeyCode[] 
-        { 
-            KeyCode.Plus, KeyCode.Minus, 
-            KeyCode.A, KeyCode.D, KeyCode.S, KeyCode.N, KeyCode.B, KeyCode.O
-        };
 
         InitDictWithEvents();
     }
 
     public void Update()
     {
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Plus))
+        if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                CtrlO();
+        if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                CtrlS();
+        if (Input.GetKeyDown(KeyCode.B))
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                CtrlB();
+
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
-            CtrlPlus();
+            if (Input.GetKeyDown(KeyCode.O))
+                CtrlO();
+            if (Input.GetKeyDown(KeyCode.S))
+                CtrlS();
+            if (Input.GetKeyDown(KeyCode.B))
+                CtrlB();
         }
+
     }
 
     public void InitDictWithEvents()
@@ -81,7 +91,7 @@ public class KeyCodes: MonoBehaviour
     }
     public void CtrlS()
     {
-
+        _ctrlS?.Invoke();
     }
     public void CtrlN()
     {

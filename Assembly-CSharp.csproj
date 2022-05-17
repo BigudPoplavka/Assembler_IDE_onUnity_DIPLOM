@@ -61,35 +61,54 @@
   <ItemGroup>
     <Compile Include="Assets\Core\LangInfo\Flag.cs" />
     <Compile Include="Assets\Scripts\MouseHoverBehaviour.cs" />
+    <Compile Include="Assets\Core\GlobalVariables.cs" />
+    <Compile Include="Assets\Scripts\VisualEffects\ButtonDescription.cs" />
+    <Compile Include="Assets\Scripts\Toggles.cs" />
+    <Compile Include="Assets\Scripts\ConsoleContentManager.cs" />
+    <Compile Include="Assets\Core\HexAddres.cs" />
     <Compile Include="Assets\Core\LangInfo\Register.cs" />
-    <Compile Include="Assets\Core\LangInfo\Stack.cs" />
     <Compile Include="Assets\Scripts\ConsoleModule.cs" />
     <Compile Include="Assets\Core\LangInfo\EnumTypesBase.cs" />
-    <Compile Include="Assets\Scripts\InputEvents.cs" />
+    <Compile Include="Assets\Scripts\StatusBar.cs" />
     <Compile Include="Assets\Scripts\FilesConfig.cs" />
-    <Compile Include="Assets\Core\LangInfo\Command.cs" />
+    <Compile Include="Assets\Core\LangInfo\Reg.cs" />
     <Compile Include="Assets\Core\CodeString.cs" />
-    <Compile Include="Assets\Scripts\InputFieldActions.cs" />
+    <Compile Include="Assets\Core\InstructionRenderer.cs" />
+    <Compile Include="Assets\Core\Instruction.cs" />
+    <Compile Include="Assets\Core\LangInfo\ObjectCode.cs" />
     <Compile Include="Assets\Scripts\KeyCodes.cs" />
-    <Compile Include="Assets\Scripts\Intellisense.cs" />
+    <Compile Include="Assets\Scripts\StatusBarRenderer.cs" />
+    <Compile Include="Assets\Core\Error.cs" />
+    <Compile Include="Assets\Scripts\VisualEffects\DragNDropBehaviour.cs" />
     <Compile Include="Assets\Core\LangInfo\DescriptBase.cs" />
+    <Compile Include="Assets\Core\Buider.cs" />
     <Compile Include="Assets\Scripts\StringContainer.cs" />
+    <Compile Include="Assets\Scripts\SettingsToggle.cs" />
     <Compile Include="Assets\Core\EngineCoreDataTransfer.cs" />
+    <Compile Include="Assets\Core\LangInfo\Variable.cs" />
     <Compile Include="Assets\Core\EventsBase.cs" />
     <Compile Include="Assets\Core\LangInfo\RegInfo.cs" />
     <Compile Include="Assets\Core\Core.cs" />
+    <Compile Include="Assets\Scripts\ISettingsValueChanger.cs" />
+    <Compile Include="Assets\Core\CodeTemplateInitilizer.cs" />
     <Compile Include="Assets\Core\LangInfo\RegValuesRange.cs" />
     <Compile Include="Assets\Core\LexAnalyzer.cs" />
     <Compile Include="Assets\Core\LangInfo\RegExpressions.cs" />
-    <Compile Include="Assets\Core\Error.cs" />
-    <Compile Include="Assets\Core\LangInfo\LexBase.cs" />
+    <Compile Include="Assets\Scripts\Settings.cs" />
+    <Compile Include="Assets\Scripts\FileDialogForWindows.cs" />
+    <Compile Include="Assets\Scripts\OpenFileByWin32.cs" />
+    <Compile Include="Assets\Core\ErrorChecker.cs" />
     <Compile Include="Assets\Scripts\CoreDirictories.cs" />
     <Compile Include="Assets\Core\ProcComponentsInitilizer.cs" />
+    <Compile Include="Assets\Scripts\InputEvents.cs" />
     <Compile Include="Assets\Core\LangInfo\Registers.cs" />
-    <Compile Include="Assets\Scripts\UIEffects.cs" />
+    <Compile Include="Assets\Scripts\VisualEffects\UIEffects.cs" />
     <Compile Include="Assets\Scripts\MenuPanelButtons.cs" />
-    <Compile Include="Assets\Scripts\DropDownValue.cs" />
-    <Compile Include="Assets\Scripts\HotKeysController.cs" />
+    <Compile Include="Assets\Scripts\VisualEffects\CodeColorizer.cs" />
+    <Compile Include="Assets\Scripts\SettingsPanel.cs" />
+    <Compile Include="Assets\Core\LogMessagesBase.cs" />
+    <Compile Include="Assets\Scripts\VisualEffects\ColorTheme.cs" />
+    <Compile Include="Assets\Scripts\VisualEffects\LoadingWindow.cs" />
     <Compile Include="Assets\Core\LangInfo\Flags.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,7 +118,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\PatFiles\empty.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -109,12 +127,14 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\PatFiles\emptyEXE.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\PatFiles\emptyCOM.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

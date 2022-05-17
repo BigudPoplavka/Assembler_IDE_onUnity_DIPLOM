@@ -9,6 +9,9 @@ public class RegValuesRange
     private int _min;
     private int _max;
 
+    private long _lmin;
+    private long _lmax;
+
     private uint _umin;
     private uint _umax;
 
@@ -24,6 +27,12 @@ public class RegValuesRange
         _umax = umax;
     }
 
+    public RegValuesRange(long lmin, long lmax)
+    {
+        _lmin = lmin;
+        _lmax = lmax;
+    }
+
     public bool isCorrectDigitValue(int value)
     {
         return (value >= _min && value <= _max) ? true : false;
@@ -36,4 +45,6 @@ public class RegValuesRange
 
     public int Min { get => _min; set => _min = value; }
     public int Max { get => _max; set => _max = value; }
+    public long Lmin { get => _lmin; set => _lmin = value; }
+    public long Lmax { get => _lmax; set => _lmax = value; }
 }

@@ -1,0 +1,14 @@
+newprog segment 'code'
+assume cs:newprog  , ds:newprog  , ss:newprog  , es:newprog  
+org 100h
+begin: jmp main
+; Определение данных  
+
+main proc near      
+; Остальной код
+
+    ret
+main endp
+
+newprog  ends
+end begin

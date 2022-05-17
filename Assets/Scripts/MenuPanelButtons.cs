@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using System;
+using System.Runtime.InteropServices;
 
 
 using Application = UnityEngine.Application;
@@ -18,10 +19,18 @@ public class OnDebugStarted : UnityEvent<string> { }
 
 public class MenuPanelButtons : MonoBehaviour
 {
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hwnd, int nCmdShow);
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetActiveWindow();
+
     [SerializeField] private DropdownMenu _FileMenu;
     [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _currSettingsActiveTab;
     [SerializeField] private OnDebugStarted _onDebugStarted = new OnDebugStarted();
-
+    [SerializeField] private UnityEvent _onClosing = new UnityEvent();
+    [SerializeField] private UnityEvent _onSettingsClosing = new UnityEvent();
+    
     // Источники данных 
 
     [SerializeField] private TMP_InputField codeInputField;
@@ -39,7 +48,6 @@ public class MenuPanelButtons : MonoBehaviour
 
         CheckRunFlag();
     }
-
     public void CheckRunFlag()
     {
         if (!File.Exists(CoreDirictories.runFlagPath))
@@ -48,12 +56,6 @@ public class MenuPanelButtons : MonoBehaviour
             File.Create(CoreDirictories.IOConfigPath);
         }
     }
-
-    //public void File()
-    //{
-        
-    //}
-
     public void FileNew()
     {
         
@@ -65,18 +67,6 @@ public class MenuPanelButtons : MonoBehaviour
         string fileName = EditorUtility.OpenFilePanel(FilesConfig.OpenFileTitle, CoreDirictories.defaultOpenFilePath, FilesConfig.EXT_MAIN);
 #endif
         string filePath = string.Empty;
-
-        //using (OpenFileDialog openFileDialog = new OpenFileDialog())
-        //{
-        //    openFileDialog.InitialDirectory = CoreDirictories.defaultOpenFilePath;
-        //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        filePath = openFileDialog.FileName;
-
-        //    }
-        //}
-
-
     }
 
     public void FileSave()
@@ -85,15 +75,6 @@ public class MenuPanelButtons : MonoBehaviour
         EditorUtility.SaveFilePanel(FilesConfig.OpenFileTitle, FilesConfig.SaveFileDefaultName, CoreDirictories.defaultOpenFilePath, FilesConfig.EXT_MAIN);
 #endif
         string filePath = string.Empty;
-
-        //using (SaveFileDialog openFileDialog = new SaveFileDialog())
-        //{
-        //    openFileDialog.InitialDirectory = CoreDirictories.defaultOpenFilePath;
-        //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        filePath = openFileDialog.FileName;
-        //    }
-        //}
     }
 
     public void FileSaveAs()
@@ -101,32 +82,14 @@ public class MenuPanelButtons : MonoBehaviour
 #if UNITY_EDITOR
 
 #endif
-        string filePath = string.Empty;
-
-        //using (SaveFileDialog openFileDialog = new SaveFileDialog())
-        //{
-        //    openFileDialog.InitialDirectory = CoreDirictories.defaultOpenFilePath;
-        //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        filePath = openFileDialog.FileName;
-        //    }
-        //}
+        string filePath = string.Empty;    
     }
-
     public void FolderOpen()
     {
 #if UNITY_EDITOR
         EditorUtility.OpenFolderPanel(FilesConfig.OpenFolderTitle, CoreDirictories.defaultOpenFilePath, CoreDirictories.defaultOpenFilePath);
 #endif
         string folderPath = string.Empty;
-
-        //using (FolderBrowserDialog openFolderDialog = new FolderBrowserDialog())
-        //{       
-        //    if (openFolderDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        folderPath = openFolderDialog.SelectedPath;
-        //    }
-        //}
     }
 
     public void Settings()
@@ -134,14 +97,33 @@ public class MenuPanelButtons : MonoBehaviour
         _settingsPanel.SetActive(true);
     }
 
+    public void CloseSettings()
+    {
+        _onSettingsClosing?.Invoke();
+        _settingsPanel.SetActive(false);
+    }
+
+    public void ShowSettingsTab(GameObject panel)
+    {
+        _currSettingsActiveTab.SetActive(false);
+        panel.SetActive(true);
+        _currSettingsActiveTab = panel;
+    }
+
     public void Close()
     {
+        _onClosing?.Invoke();
         Application.Quit();
+    }
+
+    public void ChangeFullscreenMode()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
     }
 
     public void Minimize()
     {
-        
+        ShowWindow(GetActiveWindow(), 2);
     }
 
     public void StartEmulation()
@@ -151,13 +133,15 @@ public class MenuPanelButtons : MonoBehaviour
 
     public void Build()
     {
-        
+        Debug();
+        Core.BuildAnalyzedCode();
     }
 
     public void Debug()
     {
         EventsBase.onDebugStarted?.Invoke();
-
+        Core.ClearConsole();
+        Core.ResetSyntaxAnalyzerState();
         Core.SetSyntaxAnalyzeResult(codeInputField.text);
     }
 }

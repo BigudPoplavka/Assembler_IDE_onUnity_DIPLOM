@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 public enum ProcType
 { 
     i8086, i386
+}
+
+public enum ProgramType
+{ 
+    com, exe
 }
 
 public enum SignTypeFlag
@@ -21,7 +28,12 @@ public enum RegNameFlags
 
 public enum Regname
 {
-    al, ah, bl, bh, cl, ch, dl, dh, ax, bx, cx, dx, eax, ebx, ecx, edx, CS, DS, SS, ES, si, di, sp, bp, ip
+    al, ah, bl, bh, cl, ch, dl, dh, ax, bx, cx, dx, eax, ebx, ecx, edx, cs, ds, ss, es, si, di, sp, bp, ip
+}
+
+public enum Segments
+{
+    cs, ds, ss, es
 }
 
 public enum Commands
@@ -43,19 +55,24 @@ public enum ExpandRegCommands
     cbw, cwd, cwde, cdq
 }
 
-public enum AloneLexemms
-{
-
-}
-
 public enum OneOrMoreParamsCommands
 {
     push, pop
 }
 
+public enum DataDir
+{
+    src, dest
+}
+
 public enum IdentificatorType
 { 
-    String, Digit, Binary, Hex, Char, Arr, Null, Unknown
+    String, Digit, Binary, Hex, Char, Metka, Var, Arr, Null, Unknown
+}
+
+public enum OneWordOperations
+{
+    ret, cbw, cwd, cdq
 }
 
 public enum DoubleWordOperation
@@ -63,40 +80,105 @@ public enum DoubleWordOperation
     jumps,
     je, jne, jl, jnge, jle, jng, jg, jnle, 
     jge, jnl, jb, jnae, jbe, jna, ja, jnbe, jae, jnb,
-    imul, idiv, Int
+    imul, idiv, Int, inc, dec
 }
 
-public static class PairWordsString
+public enum ThreeWordOperation
 {
-    public static List<(string, int)> pairCommands = new List<(string, int)> {
-        ("je", 1), ("jne", 1), ("jl", 1), ("jnge", 1), ("jle", 1), ("jng", 1), ("jg", 1), ("jnle", 1),
-        ("jge", 1), ("jnl", 1), ("jb", 1), ("jnae", 1), ("jbe", 1), ("jna", 1), ("ja", 1), ("jnbe", 1),( "jae", 1), ("jnb", 1),
-         ("imul", 1),( "idiv", 1),( "int", 1)
+    mov, add, sub, and, or, xor, lea
+}
+
+public enum OperationTypeTag
+{
+    varDefinition,
+    movData,
+    cmp,
+    jumps,
+    oneCommandOperation,
+    mathTwoParts,
+    mathOneOperand,
+    reg_convertions,
+    metka,
+    stack,
+    unkn
+}
+
+public enum OperandType
+{
+    memory,
+    register,
+    segRegister,
+    value
+}
+
+public static class RegTable
+{
+    public static Reg regAlAX = new Reg("000", (Regname.al, 0), (Regname.ax, 1));
+    public static Reg regClCX = new Reg("001", (Regname.cl, 0), (Regname.cx, 1));
+    public static Reg regDlDX = new Reg("010", (Regname.dl, 0), (Regname.dx, 1));
+    public static Reg regBlBX = new Reg("100", (Regname.bl, 0), (Regname.bx, 1));
+    public static Reg regAhSP = new Reg("100", (Regname.ah, 0), (Regname.sp, 1));
+    public static Reg regCHBP = new Reg("101", (Regname.ch, 0), (Regname.bp, 1));
+    public static Reg regDHSI = new Reg("110", (Regname.dh, 0), (Regname.si, 1));
+    public static Reg regBHDI = new Reg("111", (Regname.bh, 0), (Regname.di, 1));
+
+    public static Dictionary<Register, Reg> regTable = new Dictionary<Register, Reg>()
+    {
+        { Registers.al, regAlAX }, { Registers.ax, regAlAX },
+        { Registers.cl, regClCX }, { Registers.cx, regClCX },
+        { Registers.dl, regDlDX }, { Registers.dx, regDlDX },
+        { Registers.bl, regBlBX }, { Registers.bx, regBlBX },
+        { Registers.ah, regAhSP }, { Registers.sp, regAhSP },
+        { Registers.ch, regCHBP }, { Registers.bp, regCHBP },
+        { Registers.dh, regDHSI }, { Registers.si, regDHSI },
+        { Registers.bh, regDHSI }, { Registers.di, regDHSI }
+    };
+}
+
+public static class SgTable
+{
+    public static Dictionary<string, string> sg = new Dictionary<string, string>()
+    {
+        { "es", "00"  },
+        { "cs" ,"01"  },
+        { "ss" , "10" },
+        { "ds", "11"  }
+    };
+}
+
+public static class Mod
+{
+
+}
+
+public static class VariablesSizes
+{
+    private static Dictionary<string, int> _defCommandSizeDict = new Dictionary<string, int>()
+    {
+        { "db", 1 },
+        { "dw", 2 },
+        { "dd", 4 },
+        { "dq", 8 },
+        { "dt", 10 }
     };
 
-    public static bool IsDoubleWordsCommand(string str)
+    private static Dictionary<int, string> _sizeDefCommandDict = new Dictionary<int, string>()
     {
-        if(pairCommands.Any(u => u.Item1 == str))
-            return true;
+        { 1, "db" },
+        { 2, "dw" },
+        { 4, "dd" },
+        { 8, "dq" },
+        { 10, "dt" }
+    };
 
-        return false;
+    public static int GetSize(string size)
+    {
+        return _defCommandSizeDict[size];
     }
 
-    public static bool IsCorrectDoubleLexPosition(string str, int pos)
+    public static string GetDefCommand(int size)
     {
-        foreach((string, int) pair in pairCommands)
-            if (pair.Item1 == str && pair.Item2 == pos)
-                return true;
-
-        return false;
-    }
-
-    public static bool IsCorrectCommand(string[] str)
-    {
-        if(IsDoubleWordsCommand(str[0]) && IsCorrectDoubleLexPosition(str[0], 1))
-            return true;
-
-        return false;
+        return _sizeDefCommandDict[size];
     }
 }
 
@@ -111,10 +193,4 @@ public static class EnumTypesBase
         return commands;
     }
 }
-
-public static class Operators
-{ 
-    
-}
-
 
